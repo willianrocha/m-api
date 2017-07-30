@@ -16,18 +16,17 @@
           No description available
         {% endif %}
         <br>
-
       </div>
     </div>
   </div>
   <div class="row">
-    <h3>Stories</h3>
-    {% if char_stories %}
+    <h3>Comics</h3>
+    {% if char_comics %}
       <ul class="list-group">
-        {% for story in char_stories %}
-          <a class="list-group-item" href="{% url 'comics:story' story_id=story.id %}">
-            <img src="{{ story.thumbnail.path }}/portrait_small.jpg">
-            {{story.title}}
+        {% for comic in char_comics %}
+          <a class="list-group-item" href="{% url 'comics:comic' comic_id=comic.id %}">
+            <img src="{{ comic.thumbnail.path }}/portrait_small.jpg">
+            {{comic.title}}
           </a>
         {% endfor %}
       </ul>

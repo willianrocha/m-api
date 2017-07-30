@@ -1,0 +1,33 @@
+{% extends 'comics/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-4">
+      <img src="{{ comic.thumbnail.path }}/portrait_fantastic.jpg">
+    </div>
+    <div class="col-lg-8">
+      <div class="row">
+        <h2>{{ comic.title }}</h2>
+        {% if comic.description %}
+          {{ comic.description }}
+        {% else %}
+          No description available
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h3>Characters</h3>
+    <ul class="list-group">
+      {% for char in comic_char %}
+        <a class="list-group-item"
+          href="{% url 'comics:character' char_id=char.id %}">
+          <img src="{{ char.thumbnail.path }}/portrait_small.jpg">
+          {{char.name}}
+        </a>
+      {% endfor %}
+    </ul>
+  </div>
+  {{ attr }}
+<div>
+{% endblock %}

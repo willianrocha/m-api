@@ -30,15 +30,14 @@ def search(request):
 def character(request, char_id):
     template = loader.get_template('comics/char.html')
     char_json = Marvel().get_id(char_id).json()
-    char_id_stories = Marvel().get_id_stories(char_id).json()
+    char_id_comics_json = Marvel().get_id_comics(char_id).json()
     char = char_json['data']['results'][0]
-    char_stories = char_id_stories['data']['results']
+    char_comics = char_id_comics_json['data']['results']
     attribution_text = char_json['attributionText']
-    form = NameForm()
     context = {
-        'form' : form,
+        'form' : NameForm(),
         'char_id' : char,
-        'char_stories' : char_stories,
+        'char_comics' : char_comics,
         'attr' : attribution_text
     }
     return HttpResponse(template.render(context, request))
@@ -51,8 +50,24 @@ def story(request, story_id):
     story_char = storty_char_json['data']['results']
     attribution_text = story_json['attributionText']
     context = {
+        'form' :  NameForm(),
         'story' : story,
         'story_char' : story_char,
+        'attr' : attribution_text
+    }
+    return HttpResponse(template.render(context, request))
+
+def comic(request, comic_id):
+    template = loader.get_template('comics/comics.html')
+    comic_json = Marvel().get_comics(comic_id).json()
+    comic_char_json = Marvel().get_comics_characters(comic_id).json()
+    comic = comic_json['data']['results'][0]
+    comic_char = comic_char_json['data']['results']
+    attribution_text = comic_json['attributionText']
+    context = {
+        'form' : NameForm(),
+        'comic' : comic,
+        'comic_char' : comic_char,
         'attr' : attribution_text
     }
     return HttpResponse(template.render(context, request))
