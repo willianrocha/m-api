@@ -1,0 +1,41 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load comics_tags %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'comics/bootstrap.min.css' %}" />
+<div class="col-lg-offset-3 col-lg-6">
+  <div class="row">
+    <div class="col-lg-4">
+      {# {{char.data.results.0.thum}}#}
+      <img src="{{ char.data.results.0.thumbnail.path }}/portrait_fantastic.jpg">
+    </div>
+    <div class="col-lg-8">
+      <div class="row">
+        <h2>{{ char.data.results.0.name }}</h2>
+        {% if char.data.results.0.description %}
+          {{ char.data.results.0.description }}
+        {% else %}
+          No description available
+        {% endif %}
+        <br>
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h3>Stories</h3>
+    {% if char.data.results.0.stories.items %}
+      <ul class="list-group">
+        {% for story in char.data.results.0.stories.items %}
+          <a class="list-group-item" href="{% url 'comics:story' story_id=story.resourceURI|split|last %}">
+            {{story.name}}
+          </a>
+        {% endfor %}
+      </ul>
+    {% else %}
+      No stories available
+    {% endif %}
+  </div>
+  {{ char.attributionText }}
+</div>
