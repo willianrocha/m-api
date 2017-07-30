@@ -1,20 +1,17 @@
-{% load static %}
-{% load widget_tweaks %}
+{% extends 'comics/base.html' %}
 {% load comics_tags %}
 
-
-<link rel="stylesheet" type="text/css" href="{% static 'comics/bootstrap.min.css' %}" />
-<div class="col-lg-offset-3 col-lg-6">
+{% block content %}
   <div class="row">
     <div class="col-lg-4">
-      {# {{char.data.results.0.thum}}#}
-      <img src="{{ char.data.results.0.thumbnail.path }}/portrait_fantastic.jpg">
+      {# {{char_id.thum}}#}
+      <img src="{{ char_id.thumbnail.path }}/portrait_fantastic.jpg">
     </div>
     <div class="col-lg-8">
       <div class="row">
-        <h2>{{ char.data.results.0.name }}</h2>
-        {% if char.data.results.0.description %}
-          {{ char.data.results.0.description }}
+        <h2>{{ char_id.name }}</h2>
+        {% if char_id.description %}
+          {{ char_id.description }}
         {% else %}
           No description available
         {% endif %}
@@ -25,11 +22,12 @@
   </div>
   <div class="row">
     <h3>Stories</h3>
-    {% if char.data.results.0.stories.items %}
+    {% if char_stories %}
       <ul class="list-group">
-        {% for story in char.data.results.0.stories.items %}
-          <a class="list-group-item" href="{% url 'comics:story' story_id=story.resourceURI|split|last %}">
-            {{story.name}}
+        {% for story in char_stories %}
+          <a class="list-group-item" href="{% url 'comics:story' story_id=story.id %}">
+            <img src="{{ story.thumbnail.path }}/portrait_small.jpg">
+            {{story.title}}
           </a>
         {% endfor %}
       </ul>
@@ -37,5 +35,5 @@
       No stories available
     {% endif %}
   </div>
-  {{ char.attributionText }}
-</div>
+  {{ attr }}
+{% endblock %}

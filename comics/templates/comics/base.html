@@ -1,0 +1,23 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'comics/bootstrap.min.css' %}" />
+
+<body>
+  <div class="col-lg-offset-3 col-lg-6">
+    <h1>Marvel Comics Characters</h1>
+    <form action="{% url 'comics:index' %}" method="post">
+      {% csrf_token %}
+      <div class="input-group">
+        {{form.char_name|add_class:"form-control"}}
+        <div class="input-group-btn">
+          <div class="btn-group">
+            <button class="btn btn-default" type="button">Search</button>
+          </div>
+        </div>
+      </div>
+    </form>
+      {% block content %}
+      {% endblock %}
+  </div><!-- /.col-lg-6 -->
+<body>

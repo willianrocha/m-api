@@ -8,8 +8,10 @@ class Marvel:
         self.pub_key = 'dab1e729763acfa483ed90eaf40b0530'
         self.private_key = '479258fc2a08d750b9db0990b3eac19015b03878'
         self.url = 'https://gateway.marvel.com:443/v1/public'
+        # TODO Find  a better way to construct the URLs
         self.url_char_search = '/characters'
         self.url_id = '/characters/'
+        self.url_id_stories = '/stories'
         self.url_story_id = '/stories/'
         self.auth = '?ts={}&apikey={}&hash={}'
 
@@ -30,8 +32,18 @@ class Marvel:
         response = requests.get(url+self.getHash())
         return response
 
+    def get_id_stories(self, char_id):
+        url = self.url + self.url_id + char_id + self.url_id_stories
+        response = requests.get(url+self.getHash())
+        return response
+
     def get_story(self, story_id):
         url = self.url + self.url_story_id + story_id
+        response = requests.get(url+self.getHash())
+        return response
+
+    def get_story_characters(self, story_id):
+        url = self.url + self.url_story_id + story_id + self.url_char_search
         response = requests.get(url+self.getHash())
         return response
 

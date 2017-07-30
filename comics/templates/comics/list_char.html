@@ -1,10 +1,10 @@
-{% load static %}
-{% load widget_tweaks %}
-<link rel="stylesheet" type="text/css" href="{% static 'comics/bootstrap.min.css' %}" />
-<div class="col-lg-offset-3 col-lg-6">
-  {% if list_char.data.count %}
+{% extends 'comics/base.html' %}
+
+{% block content %}
+<div>
+  {% if list_char.count %}
     <ul class="list-group">
-      {% for char in list_char.data.results %}
+      {% for char in list_char.results %}
         <a class="list-group-item" href="{% url 'comics:character' char_id=char.id %}">
           <img src="{{ char.thumbnail.path }}/portrait_small.jpg">
           {{ char.name }}
@@ -16,3 +16,4 @@
     <li>Sorry, no characters found.</li>
   {% endif %}
 </div>
+{% endblock %}
