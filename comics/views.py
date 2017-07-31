@@ -20,20 +20,20 @@ def index(request):
 def search(request):
     template = loader.get_template('comics/list_char.html')
     char_name = request.POST.get('char_name', '')
-    list_char = Marvel().get_characteres(char_name).json()
-    context = {
-        'char_name' : char_name,
-        'list_char' : list_char['data']
-    }
+    list_char = Marvel().get_characteres(char_name)
+    if list_char:
+        context = {
+            'char_name' : char_name,
+            'list_char' : list_char
+        }
+    else:
+        context = {}
     return context, template
 
 def character(request, char_id):
     template = loader.get_template('comics/char.html')
-    char_json = Marvel().get_id(char_id).json()
-    char_id_comics_json = Marvel().get_id_comics(char_id).json()
-    char = char_json['data']['results'][0]
-    char_comics = char_id_comics_json['data']['results']
-    attribution_text = char_json['attributionText']
+    char, attribution_text = Marvel().get_id(char_id)
+    char_comics = Marvel().get_id_comics(char_id)
     context = {
         'form' : NameForm(),
         'char_id' : char,
@@ -59,11 +59,8 @@ def story(request, story_id):
 
 def comic(request, comic_id):
     template = loader.get_template('comics/comics.html')
-    comic_json = Marvel().get_comics(comic_id).json()
-    comic_char_json = Marvel().get_comics_characters(comic_id).json()
-    comic = comic_json['data']['results'][0]
-    comic_char = comic_char_json['data']['results']
-    attribution_text = comic_json['attributionText']
+    comic, attribution_text = Marvel().get_comics(comic_id)
+    comic_char = Marvel().get_comics_characters(comic_id)
     context = {
         'form' : NameForm(),
         'comic' : comic,

@@ -2,6 +2,7 @@
 
 {% block content %}
   <div class="row">
+  {% if comic %}
     <div class="col-lg-4">
       <img src="{{ comic.thumbnail.path }}/portrait_fantastic.jpg">
     </div>
@@ -29,5 +30,8 @@
     </ul>
   </div>
   {{ attr }}
+  {% else %}
+    <h3>Sorry, something went wrong. The comic could not be loaded</h3>
+  {% endif %}
 <div>
 {% endblock %}

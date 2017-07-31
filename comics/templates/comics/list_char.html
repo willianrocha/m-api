@@ -13,7 +13,11 @@
     </ul>
     {{ list_char.attributionText }}
   {% else %}
-    <li>Sorry, no characters found.</li>
+    {% if list_char %}
+      <h3>Sorry, no characters found.</h3>
+    {% else %}
+      <h3>Sorry, something went wrong. A list of characters were not retreived</h3>
+    {% endif %}
   {% endif %}
 </div>
 {% endblock %}

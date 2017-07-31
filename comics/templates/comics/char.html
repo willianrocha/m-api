@@ -3,36 +3,40 @@
 
 {% block content %}
   <div class="row">
-    <div class="col-lg-4">
-      {# {{char_id.thum}}#}
-      <img src="{{ char_id.thumbnail.path }}/portrait_fantastic.jpg">
-    </div>
-    <div class="col-lg-8">
-      <div class="row">
-        <h2>{{ char_id.name }}</h2>
-        {% if char_id.description %}
-          {{ char_id.description }}
-        {% else %}
-          No description available
-        {% endif %}
-        <br>
+    {% if char_id %}
+      <div class="col-lg-4">
+        {# {{char_id.thum}}#}
+        <img src="{{ char_id.thumbnail.path }}/portrait_fantastic.jpg">
+      </div>
+      <div class="col-lg-8">
+        <div class="row">
+          <h2>{{ char_id.name }}</h2>
+          {% if char_id.description %}
+            {{ char_id.description }}
+          {% else %}
+            No description available
+          {% endif %}
+          <br>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <h3>Comics</h3>
-    {% if char_comics %}
-      <ul class="list-group">
-        {% for comic in char_comics %}
-          <a class="list-group-item" href="{% url 'comics:comic' comic_id=comic.id %}">
-            <img src="{{ comic.thumbnail.path }}/portrait_small.jpg">
-            {{comic.title}}
-          </a>
-        {% endfor %}
-      </ul>
-    {% else %}
-      No stories available
-    {% endif %}
-  </div>
-  {{ attr }}
+    <div class="row">
+      <h3>Comics</h3>
+      {% if char_comics %}
+        <ul class="list-group">
+          {% for comic in char_comics %}
+            <a class="list-group-item" href="{% url 'comics:comic' comic_id=comic.id %}">
+              <img src="{{ comic.thumbnail.path }}/portrait_small.jpg">
+              {{comic.title}}
+            </a>
+          {% endfor %}
+        </ul>
+      {% else %}
+        No stories available
+      {% endif %}
+    </div>
+    {{ attr }}
+  {% else %}
+    <h3>Sorry, something went wrong. The character could not be loaded</h3>
+  {% endif %}
 {% endblock %}
