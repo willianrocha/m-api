@@ -8,13 +8,6 @@ class Marvel:
         self.pub_key = 'dab1e729763acfa483ed90eaf40b0530'
         self.private_key = '479258fc2a08d750b9db0990b3eac19015b03878'
         self.url = 'https://gateway.marvel.com:443/v1/public'
-        # TODO Find  a better way to construct the URLs
-        self.url_char_search = '/characters'
-        self.url_id = '/characters/'
-        self.url_id_stories = '/stories'
-        self.url_id_comics = '/comics'
-        self.url_story_id = '/stories/'
-        self.url_comics = '/comics/'
         self.auth = '?ts={}&apikey={}&hash={}'
 
     def getHash(self):
@@ -24,43 +17,43 @@ class Marvel:
         return self.auth.format(ts, self.pub_key, hash_string)
 
     def get_characteres(self, name):
-        url = self.url + self.url_char_search
+        url = self.url + '/characters'
         start = '&nameStartsWith=%s' % name
         response = requests.get(url+self.getHash()+start)
         return response
 
     def get_id(self, char_id):
-        url = self.url + self.url_id + char_id
+        url = self.url + ('/characters/%s' % char_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_id_stories(self, char_id):
-        url = self.url + self.url_id + char_id + self.url_id_stories
+        url = self.url + ('/characters/%s/stories' % char_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_id_comics(self, char_id):
-        url = self.url + self.url_id + char_id + self.url_id_comics
+        url = self.url + ('/characters/%s/comics' % char_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_comics(self, comic_id):
-        url = self.url + self.url_comics + comic_id
+        url = self.url + ('/comics/%s' % comic_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_comics_characters(self, comic_id):
-        url = self.url + self.url_comics + comic_id + self.url_char_search
+        url = self.url + ('/comics/%s/characters' % comic_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_story(self, story_id):
-        url = self.url + self.url_story_id + story_id
+        url = self.url + ('/stories/%s' % story_id)
         response = requests.get(url+self.getHash())
         return response
 
     def get_story_characters(self, story_id):
-        url = self.url + self.url_story_id + story_id + self.url_char_search
+        url = self.url + ('/stories/%s/characters' % story_id)
         response = requests.get(url+self.getHash())
         return response
 
