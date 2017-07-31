@@ -41,19 +41,16 @@ class Marvel:
 
     def get_id_comics(self, char_id):
         url = self.url + self.url_id + char_id + self.url_id_comics
-        print(url)
         response = requests.get(url+self.getHash())
         return response
 
     def get_comics(self, comic_id):
         url = self.url + self.url_comics + comic_id
-        print(url)
         response = requests.get(url+self.getHash())
         return response
 
     def get_comics_characters(self, comic_id):
         url = self.url + self.url_comics + comic_id + self.url_char_search
-        print(url)
         response = requests.get(url+self.getHash())
         return response
 
