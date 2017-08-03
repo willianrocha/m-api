@@ -42,21 +42,6 @@ def character(request, char_id):
     }
     return HttpResponse(template.render(context, request))
 
-def story(request, story_id):
-    template = loader.get_template('comics/story.html')
-    story_json = Marvel().get_story(story_id).json()
-    storty_char_json = Marvel().get_story_characters(story_id).json()
-    story = story_json['data']['results'][0]
-    story_char = storty_char_json['data']['results']
-    attribution_text = story_json['attributionText']
-    context = {
-        'form' :  NameForm(),
-        'story' : story,
-        'story_char' : story_char,
-        'attr' : attribution_text
-    }
-    return HttpResponse(template.render(context, request))
-
 def comic(request, comic_id):
     template = loader.get_template('comics/comics.html')
     comic, attribution_text = Marvel().get_comics(comic_id)

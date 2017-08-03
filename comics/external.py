@@ -16,10 +16,18 @@ class Marvel:
         hash_string = hashlib.md5(hsh).hexdigest()
         return self.auth.format(ts, self.pub_key, hash_string)
 
+    def get(self, url):
+        try:
+            response = requests.get(url,timeout=10).json()
+        except requests.exceptions.Timeout:
+            # TODO Logging
+            response = {}
+        return response
+
     def get_characteres(self, name):
         url = self.url + '/characters'
         start = '&nameStartsWith=%s' % name
-        response = requests.get(url+self.get_hash()+start).json()
+        response = self.get(url+self.get_hash()+start)
         try:
             list_char = response['data']
         except KeyError:
@@ -29,7 +37,7 @@ class Marvel:
 
     def get_id(self, char_id):
         url = self.url + ('/characters/%s' % char_id)
-        response = requests.get(url+self.get_hash()).json()
+        response = self.get(url+self.get_hash())
         try:
             char = response['data']['results'][0]
             attr_text = response['attributionText']
@@ -38,14 +46,9 @@ class Marvel:
             attr_text = None
         return char, attr_text
 
-    def get_id_stories(self, char_id):
-        url = self.url + ('/characters/%s/stories' % char_id)
-        response = requests.get(url+self.get_hash())
-        return response
-
     def get_id_comics(self, char_id):
         url = self.url + ('/characters/%s/comics' % char_id)
-        response = requests.get(url+self.get_hash()).json()
+        response = self.get(url+self.get_hash())
         try:
             char_comics = response['data']['results']
         except KeyError:
@@ -54,7 +57,7 @@ class Marvel:
 
     def get_comics(self, comic_id):
         url = self.url + ('/comics/%s' % comic_id)
-        response = requests.get(url+self.get_hash()).json()
+        response = self.get(url+self.get_hash())
         try:
             comic = response['data']['results'][0]
             attribution_text = response['attributionText']
@@ -65,22 +68,12 @@ class Marvel:
 
     def get_comics_characters(self, comic_id):
         url = self.url + ('/comics/%s/characters' % comic_id)
-        response = requests.get(url+self.get_hash()).json()
+        response = self.get(url+self.get_hash())
         try:
             comic_char = response['data']['results']
         except KeyError:
             comic_char = None
         return comic_char
-
-    def get_story(self, story_id):
-        url = self.url + ('/stories/%s' % story_id)
-        response = requests.get(url+self.get_hash())
-        return response
-
-    def get_story_characters(self, story_id):
-        url = self.url + ('/stories/%s/characters' % story_id)
-        response = requests.get(url+self.get_hash())
-        return response
 
 # a = Marvel()
 # n = a.getCharacteres('spider')
